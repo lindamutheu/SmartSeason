@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fields</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+
+        /* Navbar */
+        .nav {
+            background: #0b3d2e; /* jungle green */
+            padding: 15px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            padding: 20px;
+        }
+
+        h2 {
+            color: #0b3d2e;
+        }
+
+        /* Field Cards */
+        .field-card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .field-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0b3d2e;
+        }
+
+        .field-info {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body onload="loadFields()">
+
+<div class="nav">
+    <a href="/dashboard/">Dashboard</a>
+    <a href="/fields/">Fields</a>
+    <a href="/crops/">Crops</a>
+</div>
+
+<div class="container">
+    <h2>Fields</h2>
+    <div id="fields"></div>
+</div>
+
+<script>
+    async function loadFields() {
+        try {
+            const response = await fetch('/api/fields/');
+            const data = await response.json();
+
+            const container = document.getElementById('fields');
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = "<p>No fields available.</p>";
+                return;
+            }
+
+            data.forEach(field => {
+                const div = document.createElement('div');
+                div.classList.add('field-card');
+
+                div.innerHTML = `
+                    <div class="field-title">${field.crop_type}</div>
+                    <div class="field-info">Stage: ${field.stage}</div>
+                    <div class="field-info">Planting Date: ${field.planting_date}</div>
+                    <div class="field-info">Agent ID: ${field.agent}</div>
+                `;
+
+                container.appendChild(div);
+            });
+
+        } catch (error) {
+            console.error('Error loading fields:', error);
+        }
+    }
+</script>
+
+</body>
+</html>

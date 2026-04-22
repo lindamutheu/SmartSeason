@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crops</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+
+        /* Navbar */
+        .nav {
+            background: #0b3d2e; /* jungle green */
+            padding: 15px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            padding: 20px;
+        }
+
+        h2 {
+            color: #0b3d2e;
+        }
+
+        /* Crop Cards */
+        .crop-card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .crop-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0b3d2e;
+        }
+
+        .crop-info {
+            font-size: 14px;
+            margin-top: 5px;
+            color: #555;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #0b3d2e;
+            width: 0%;
+        }
+    </style>
+</head>
+
+<body onload="loadCrops()">
+
+<div class="nav">
+    <a href="/dashboard/">Dashboard</a>
+    <a href="/fields/">Fields</a>
+    <a href="/crops/">Crops</a>
+</div>
+
+<div class="container">
+    <h2>Crop Progress</h2>
+    <div id="crops"></div>
+</div>
+
+<script>
+    function getProgress(stage) {
+        switch(stage) {
+            case 'planted': return 25;
+            case 'growing': return 50;
+            case 'ready': return 75;
+            case 'harvested': return 100;
+            default: return 0;
+        }
+    }
+
+    async function loadCrops() {
+        try {
+            const response = await fetch('/api/fields/');
+            const data = await response.json();
+
+            const container = document.getElementById('crops');
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = "<p>No crop data available.</p>";
+                return;
+            }
+
+            data.forEach(field => {
+                const progress = getProgress(field.stage);
+
+                const div = document.createElement('div');
+                div.classList.add('crop-card');
+
+                div.innerHTML = `
+                    <div class="crop-title">${field.crop_type}</div>
+                    <div class="crop-info">Stage: ${field.stage}</div>
+                    <div class="crop-info">Planting Date: ${field.planting_date}</div>
+
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: ${progress}%"></div>
+                    </div>
+
+                    <div class="crop-info">${progress}% complete</div>
+                `;
+
+                container.appendChild(div);
+            });
+
+        } catch (error) {
+            console.error('Error loading crops:', error);
+        }
+    }
+</script>
+
+</body>
+</html>

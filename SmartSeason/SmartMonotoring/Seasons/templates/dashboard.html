@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+
+        /* Navbar */
+        .nav {
+            background: #0b3d2e; /* jungle green */
+            padding: 15px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            padding: 20px;
+        }
+
+        h2 {
+            color: #0b3d2e;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .card h3 {
+            margin: 0;
+            color: #0b3d2e;
+        }
+
+        .card p {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body onload="loadDashboard()">
+
+<div class="nav">
+    <a href="/dashboard/">Dashboard</a>
+    <a href="/fields/">Fields</a>
+    <a href="/crops/">Crops</a>
+</div>
+
+<div class="container">
+    <h2>Dashboard</h2>
+    <p>Welcome to SmartSeason</p>
+
+    <div class="cards">
+        <div class="card">
+            <h3>Total Fields</h3>
+            <p id="total-fields">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Growing</h3>
+            <p id="growing">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Ready</h3>
+            <p id="ready">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Harvested</h3>
+            <p id="harvested">0</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function loadDashboard() {
+        try {
+            const response = await fetch('/api/fields/');
+            const data = await response.json();
+
+            let total = data.length;
+            let growing = 0;
+            let ready = 0;
+            let harvested = 0;
+
+            data.forEach(field => {
+                if (field.stage === 'growing') growing++;
+                if (field.stage === 'ready') ready++;
+                if (field.stage === 'harvested') harvested++;
+            });
+
+            document.getElementById('total-fields').innerText = total;
+            document.getElementById('growing').innerText = growing;
+            document.getElementById('ready').innerText = ready;
+            document.getElementById('harvested').innerText = harvested;
+
+        } catch (error) {
+            console.error('Error loading dashboard:', error);
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SmartSeason</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+<div class="nav">
+    <a href="/">SmartSeason</a>
+    <a href="/login/">Login</a>
+</div>
+
+<div class="container" style="text-align:center;">
+    <h1>🌱 SmartSeason</h1>
+    <p>Monitor crop progress across multiple fields in real-time.</p>
+
+    <br>
+
+    <a href="/login/">
+        <button>Get Started</button>
+    </a>
+</div>
+
+<div class="container">
+    <h2>How it works</h2>
+
+    <div class="card">
+        <h3>Admin (Coordinator)</h3>
+        <p>Manage fields, assign crops, and oversee operations.</p>
+    </div>
+
+    <div class="card">
+        <h3>Field Agent</h3>
+        <p>Track crop progress and update field data.</p>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 370px;
+}
+
+.login-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-card {
+    background: green;
+    padding: 30px;
+    width: 350px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.login-title {
+    text-align: center;
+    color: #075840;
+    margin-bottom: 100px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #0b3d2e;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    background: #0b3d2e;
+    color: green;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.login-btn:hover {
+    background: #145c45;
+}
+
+.container {
+    width: 400px;
+    margin: 80px auto;
+    padding: 20px;
+    background: green;
+    border-radius: 8px;
+}
+
+h2 {
+    text-align: center;
+    padding-left: 350px;
+}
+
+input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+button {
+    background: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.nav {
+    background: #333;
+    padding: 10px;
+}
+
+.nav a {
+    color: white;
+    margin-right: 15px;
+    text-decoration: none;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 6px;
+}
